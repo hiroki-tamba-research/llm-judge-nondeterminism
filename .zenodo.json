@@ -35,6 +35,5 @@
       "relation": "references",
       "scheme": "url"
     }
-  ],
-  "notes": "TODO before release: replace the placeholder ORCID with the author's real ORCID and confirm the affiliation string."
+  ]
 }

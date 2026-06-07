@@ -8,7 +8,7 @@ authors:
     affiliation: "Tamba Research Academy"
     orcid: "https://orcid.org/0009-0004-7635-0741"
 version: "1.0"
-date-released: "2026-06-07"   # TODO: update to the actual release date
+date-released: "2026-06-07"
 license: CC-BY-4.0
 url: "https://github.com/hiroki-tamba-research/llm-judge-nondeterminism"
 abstract: >-

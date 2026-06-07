@@ -3,7 +3,7 @@
 All notable changes to this artifact. Each released version is archived on Zenodo with its
 own version DOI under a single concept DOI.
 
-## [1.0] - 2026-06-07  <!-- TODO: set to actual release date -->
+## [1.0] - 2026-06-07
 
 ### Report (pre-resolution)
 - Initial deposit: reproduction harness, measured per-item grader disagreement rates, and the

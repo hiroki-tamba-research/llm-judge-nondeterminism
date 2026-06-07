@@ -1,6 +1,6 @@
 # Non-determinism in LLM-as-Judge Graders: An Empirical Reproducibility Note
 
-**Author:** Hiroki Tamba (Tamba Research Academy) <!-- TODO: confirm affiliation string / add ORCID -->
+**Author:** Hiroki Tamba (Tamba Research Academy) · ORCID [0009-0004-7635-0741](https://orcid.org/0009-0004-7635-0741)
 **Status:** Preprint / technical note — **v1.0 (report; pre-resolution)**
 **Origin:** Generalized from a finding first reported as `Japan-AISI/aisev` issue #25 (2026-06-03).
 

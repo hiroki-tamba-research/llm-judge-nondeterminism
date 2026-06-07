@@ -171,10 +171,9 @@ reports the per-item disagreement rate. The raw grader outputs backing §3–§4
 ## 8. Related work and positioning
 
 **LLM-as-judge reliability.** Using an LLM to score model outputs is now standard practice
-[anchor: Zheng et al., "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena", 2023]. Most
-of this literature characterizes *systematic* biases of the judge — position bias, verbosity
-bias, and self-preference [anchor: Wang et al., "Large Language Models are not Fair
-Evaluators", 2023] — that is, skews that persist *across* runs. The finding here is on an
+(Zheng et al., 2023). Most of this literature characterizes *systematic* biases of the judge —
+position bias, verbosity bias, and self-preference (Wang et al., 2023) — that is, skews that
+persist *across* runs. The finding here is on an
 orthogonal axis: *run-to-run* non-determinism, where the same judge returns different verdicts
 for the identical (transcript, rubric) pair on repeated calls. The two concerns are
 complementary: a debiased judge can still be irreproducible, and a perfectly reproducible
@@ -191,7 +190,9 @@ configuration-level reproducibility hazard, not a modeling one.
 **Residual non-determinism at `temperature=0`.** Even under greedy decoding, production LLM
 serving is generally not bit-reproducible: request batching, mixture-of-experts routing, and
 non-associative floating-point reductions across kernels and hardware can change the argmax
-for borderline tokens [anchor: systems/vendor literature on deterministic LLM inference]. The
+for borderline tokens; recent analysis attributes temperature-0 nondeterminism primarily to a
+lack of *batch invariance* in core kernels, where numerics shift with batch size and sequence
+slicing (He et al., 2025). The
 cross-model check in §4 is consistent with this — a Claude grader at `temperature=0` still
 flipped 2/7 items — and motivates the operative recommendation of this note: *measure grader
 disagreement; do not assume it away.*
@@ -202,9 +203,15 @@ disagreement; do not assume it away.*
   <https://github.com/Japan-AISI/aisev/issues/25>
 - Inspect AI (UK AISI): `GenerateConfig`, `model_graded_qa`.
 
-<!-- CITATION INTEGRITY: the [anchor: ...] markers are named placeholders, NOT verified
-references. Resolve each to a real DOI/URL and confirm authors/year/venue before any formal
-submission or PDF release (use the citation-integrity workflow). -->
+**References.**
+
+1. L. Zheng, W.-L. Chiang, Y. Sheng, et al. "Judging LLM-as-a-Judge with MT-Bench and Chatbot
+   Arena." *Advances in Neural Information Processing Systems 36 (NeurIPS 2023), Datasets and
+   Benchmarks Track*, 2023. arXiv:2306.05685, DOI: 10.48550/arXiv.2306.05685.
+2. P. Wang, L. Li, L. Chen, et al. "Large Language Models are not Fair Evaluators." 2023.
+   arXiv:2305.17926, DOI: 10.48550/arXiv.2305.17926.
+3. H. He et al. "Defeating Nondeterminism in LLM Inference." Thinking Machines Lab, 2025.
+   <https://thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference/>
 
 
 ## Scope of this deposit

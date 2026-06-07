@@ -6,7 +6,7 @@ authors:
   - family-names: "Tamba"
     given-names: "Hiroki"
     affiliation: "Tamba Research Academy"
-    # orcid: "https://orcid.org/0000-0000-0000-0000"   # TODO: add real ORCID
+    orcid: "https://orcid.org/0009-0004-7635-0741"
 version: "1.0"
 date-released: "2026-06-07"   # TODO: update to the actual release date
 license: CC-BY-4.0

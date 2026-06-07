@@ -1,0 +1,40 @@
+{
+  "title": "Non-determinism in LLM-as-Judge Graders: An Empirical Reproducibility Note",
+  "version": "1.0",
+  "upload_type": "publication",
+  "publication_type": "report",
+  "description": "<p>LLM-as-judge (grader) components are standard in evaluation harnesses, including safety evaluations where a pass/fail verdict gates downstream decisions. The widespread assumption that setting the grader temperature to 0 makes grading deterministic is wrong on two levels. (1) A publicly released evaluation harness (Japan AISI's aisev) invokes its grader without setting temperature or seed; the OpenAI provider maps temperature=None to 1.0, so the grader runs unseeded at temperature 1.0 and items near the decision boundary flip pass/fail across runs (measured per-item disagreement up to ~50% over 20 runs). (2) Even at temperature=0, a Claude grader still flips its verdict on 2 of 7 items, showing temperature alone does not guarantee deterministic grading. The note provides a reproduction harness and recommends concrete mitigations: set temperature=0 explicitly, set a seed where supported, run multiple epochs and report variance rather than a point estimate, and surface a grader-disagreement rate as a harness health metric. Generalized from a finding first reported as Japan-AISI/aisev issue #25.</p>",
+  "creators": [
+    {
+      "name": "Tamba, Hiroki",
+      "affiliation": "Tamba Research Academy",
+      "orcid": "0000-0000-0000-0000"
+    }
+  ],
+  "keywords": [
+    "LLM-as-judge",
+    "model evaluation",
+    "reproducibility",
+    "non-determinism",
+    "AI safety evaluation",
+    "grader reliability",
+    "inspect_ai",
+    "temperature",
+    "benchmarking"
+  ],
+  "license": "cc-by-4.0",
+  "language": "eng",
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/Japan-AISI/aisev/issues/25",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://github.com/Japan-AISI/aisev",
+      "relation": "references",
+      "scheme": "url"
+    }
+  ],
+  "notes": "TODO before release: replace the placeholder ORCID with the author's real ORCID and confirm the affiliation string."
+}

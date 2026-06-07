@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it using the metadata below."
+title: "Non-determinism in LLM-as-Judge Graders: An Empirical Reproducibility Note"
+type: report
+authors:
+  - family-names: "Tamba"
+    given-names: "Hiroki"
+    affiliation: "Tamba Research Academy"
+    # orcid: "https://orcid.org/0000-0000-0000-0000"   # TODO: add real ORCID
+version: "1.0"
+date-released: "2026-06-07"   # TODO: update to the actual release date
+license: CC-BY-4.0
+url: "https://github.com/<your-account>/llm-judge-nondeterminism"   # TODO
+abstract: >-
+  LLM-as-judge graders are non-deterministic. A real evaluation harness
+  (Japan AISI's aisev) calls its grader without controlling temperature or
+  seed, so it runs unseeded at temperature 1.0 and near-boundary items flip
+  pass/fail across runs. Even at temperature 0, a Claude grader still flips on
+  2 of 7 items, showing temperature alone does not guarantee deterministic
+  grading. The note gives a reproduction harness and concrete mitigations.
+  Generalized from Japan-AISI/aisev issue #25.
+keywords:
+  - LLM-as-judge
+  - model evaluation
+  - reproducibility
+  - non-determinism
+  - AI safety evaluation

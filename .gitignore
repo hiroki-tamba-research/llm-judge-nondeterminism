@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Secrets
+.env
+*.key
+
+# Re-running the harness writes raw outputs next to the script; the canonical
+# evidence is committed under data/ instead.
+src/repro_raw_*.json
+
+# OS
+.DS_Store
+Thumbs.db

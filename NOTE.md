@@ -2,6 +2,7 @@
 
 **Author:** Hiroki Tamba (Tamba Research Academy) · ORCID [0009-0004-7635-0741](https://orcid.org/0009-0004-7635-0741)
 **Status:** Preprint / technical note — **v1.0 (report; pre-resolution)**
+**DOI:** [10.5281/zenodo.20581781](https://doi.org/10.5281/zenodo.20581781) (concept · always latest) · v1.0 [10.5281/zenodo.20581782](https://doi.org/10.5281/zenodo.20581782)
 **Origin:** Generalized from a finding first reported as `Japan-AISI/aisev` issue #25 (2026-06-03).
 
 ---
@@ -248,4 +249,10 @@ note was assisted by an LLM (Claude); all claims and data were verified by the a
 
 ## How to cite
 
-See [`CITATION.cff`](CITATION.cff). Once archived, cite by the Zenodo DOI minted on release.
+Tamba, H. (2026). *Non-determinism in LLM-as-Judge Graders: An Empirical Reproducibility Note*
+(v1.0). Zenodo. https://doi.org/10.5281/zenodo.20581782
+
+- Concept DOI (always resolves to the latest version): [10.5281/zenodo.20581781](https://doi.org/10.5281/zenodo.20581781)
+- Version DOI (this release, v1.0): [10.5281/zenodo.20581782](https://doi.org/10.5281/zenodo.20581782)
+
+Machine-readable metadata: [`CITATION.cff`](CITATION.cff).

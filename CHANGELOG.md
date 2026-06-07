@@ -17,6 +17,7 @@ own version DOI under a single concept DOI.
 - Includes raw grader outputs (`data/repro_raw_openai.json`, `data/repro_raw_anthropic.json`)
   as the evidence behind §3–§4.
 - Generalized from `Japan-AISI/aisev` issue #25 (2026-06-03).
+- Zenodo: version DOI 10.5281/zenodo.20581782, concept DOI 10.5281/zenodo.20581781.
 
 ## [2.0] - planned
 

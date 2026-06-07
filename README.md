@@ -1,5 +1,7 @@
 # Non-determinism in LLM-as-Judge Graders
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20581781.svg)](https://doi.org/10.5281/zenodo.20581781)
+
 An empirical reproducibility note plus a reproduction harness, showing that
 LLM-as-judge graders are non-deterministic — and that the common
 `temperature=0` fix is **necessary but not sufficient**.

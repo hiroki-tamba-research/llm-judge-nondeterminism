@@ -10,7 +10,7 @@ authors:
 version: "1.0"
 date-released: "2026-06-07"   # TODO: update to the actual release date
 license: CC-BY-4.0
-url: "https://github.com/<your-account>/llm-judge-nondeterminism"   # TODO
+url: "https://github.com/hiroki-tamba-research/llm-judge-nondeterminism"
 abstract: >-
   LLM-as-judge graders are non-deterministic. A real evaluation harness
   (Japan AISI's aisev) calls its grader without controlling temperature or

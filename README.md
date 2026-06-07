@@ -5,6 +5,7 @@ LLM-as-judge graders are non-deterministic — and that the common
 `temperature=0` fix is **necessary but not sufficient**.
 
 - **The note:** [`NOTE.md`](NOTE.md) — read this first.
+- **PDF:** [`NOTE.pdf`](NOTE.pdf) — rendered from `NOTE.md` via [`tools/render_pdf.py`](tools/render_pdf.py) (`pip install markdown xhtml2pdf`).
 - **Reproduction:** [`src/repro_disagreement_rate.py`](src/repro_disagreement_rate.py)
 - **Origin:** generalized from [`Japan-AISI/aisev` issue #25](https://github.com/Japan-AISI/aisev/issues/25).
 

@@ -1,0 +1,5 @@
+# Normalize text sources to LF in the repository.
+* text=auto eol=lf
+
+# PDFs are binary: never apply end-of-line conversion (it would corrupt them).
+*.pdf binary

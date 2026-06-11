@@ -22,7 +22,7 @@
     "temperature",
     "benchmarking"
   ],
-  "license": "cc-by-4.0",
+  "license": "cc-by-nc-nd-4.0",
   "language": "eng",
   "related_identifiers": [
     {
@@ -35,5 +35,6 @@
       "relation": "references",
       "scheme": "url"
     }
-  ]
+  ],
+  "notes": "Code (src/, tools/) is MIT-licensed. Prose (NOTE.md, NOTE.pdf, README.md, CHANGELOG.md) and empirical data (data/*.json) are CC-BY-NC-ND-4.0. For commercial use, derivative works, integration into commercial products, or inclusion in training datasets, a separate written license is required. Contact: contact@tamba-research.academy. Academic citation under fair use is permitted with proper attribution. This work is reserved against Text and Data Mining (TDM) per EU DSM Directive Article 4(3); see .well-known/tdmrep.json."
 }

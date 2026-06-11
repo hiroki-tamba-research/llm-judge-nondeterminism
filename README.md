@@ -73,5 +73,9 @@ pin. See [`CHANGELOG.md`](CHANGELOG.md).
 
 ## License
 
-- Code (`src/`): MIT — see [`LICENSE`](LICENSE).
-- Prose (`NOTE.md` and this README): CC-BY-4.0.
+- Code (`src/`, `tools/`): MIT — see [`LICENSE`](LICENSE).
+- Prose (`NOTE.md`, `NOTE.pdf`, this README, `CHANGELOG.md`) and data (`data/*.json`): CC-BY-NC-ND-4.0.
+
+For commercial use, derivative works, integration into commercial products, or inclusion in training datasets, a separate written license is required. Contact: contact@tamba-research.academy
+
+This work is reserved against TDM per EU DSM Directive Article 4(3). See `.well-known/tdmrep.json`.

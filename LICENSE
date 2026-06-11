@@ -1,4 +1,4 @@
-MIT License
+MIT License (code only)
 
 Copyright (c) 2026 Hiroki Tamba
 
@@ -22,5 +22,21 @@ SOFTWARE.
 
 ---
 
-The prose documents in this repository (NOTE.md and README.md) are licensed
-under the Creative Commons Attribution 4.0 International License (CC-BY-4.0).
+Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (prose and data)
+
+The prose documents (NOTE.md, NOTE.pdf, README.md, CHANGELOG.md) and empirical
+data files (data/*.json) in this repository are licensed under CC-BY-NC-ND-4.0.
+https://creativecommons.org/licenses/by-nc-nd/4.0/
+
+COMMERCIAL LICENSING
+
+For commercial use, derivative works, integration into commercial products,
+or inclusion in training datasets, a separate written license is required.
+Contact: contact@tamba-research.academy
+
+Academic citation under fair use is permitted with proper attribution.
+
+TEXT AND DATA MINING RESERVATION
+
+This work is reserved against Text and Data Mining (TDM) per EU DSM Directive
+Article 4(3) and EU AI Act Article 53. See .well-known/tdmrep.json.

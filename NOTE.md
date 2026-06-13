@@ -190,13 +190,22 @@ that the non-determinism originates *before* the sampling step, in the forward p
 item (item 6) at the same rate (9/1). The effect is not an artifact of a particular model
 size or architecture tier within a provider.
 
-**4. `temperature` is being deprecated.** Claude Opus 4.8 rejects `temperature` as a parameter
-entirely (`"temperature is deprecated for this model"`), returning HTTP 400 on all 70
-attempted calls. This means the primary recommendation of §6 — "set `temperature=0`
-explicitly" — is *already inapplicable* to at least one production model. As providers move
-toward models with fixed or internally managed decoding, the `temperature=0` mitigation will
-become progressively less available, strengthening the case for the structural mitigations in
-§6 items 3–5 (epochs, variance reporting, and health metrics).
+**4. Sampling control is being removed.** Claude Opus 4.7 and 4.8 reject explicit
+`temperature` values in the range [0, 1) with HTTP 400 (`"temperature is deprecated for this
+model"`); only `temperature=1.0` (the default, full sampling) is accepted. The gate is on
+the *value*, not on the parameter being present. Furthermore, `top_p` and `top_k` are also
+deprecated on these two models — the entire sampling-control class is gone, not just
+`temperature=0`.[^opus-scope] This means the primary recommendation of §6 — "set
+`temperature=0` explicitly" — is *already inapplicable* to these models, and there is no
+alternative sampling-side knob to reach for. As providers move toward models with fixed or
+internally managed decoding, sampling-parameter mitigations will become progressively less
+available, strengthening the case for the structural mitigations in §6 items 3–5 (epochs,
+variance reporting, and health metrics).
+
+[^opus-scope]: The deprecation is specific to Opus 4.7 and 4.8. Sonnet 4.6, Haiku 4.5, and
+earlier Opus versions (4.5, 4.6) accept explicit `temperature`, `top_p`, and `top_k`
+normally. Independent verification by Eirik Botten Nicolaysen (avalyset):
+<https://gist.github.com/avalyset/59a81e2961d45d4ba76de56d592b1110>.
 
 **Note on temporal stability.** The v1.0 Claude Sonnet 4.6 baseline (§4) found 2/7
 non-reproducible items (items 6 and 7); the v1.1 re-run finds 1/7 (item 6 only, item 7

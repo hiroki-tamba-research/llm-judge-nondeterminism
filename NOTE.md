@@ -342,6 +342,6 @@ Tamba, H. (2026). *Non-determinism in LLM-as-Judge Graders: An Empirical Reprodu
 
 - Concept DOI (always resolves to the latest version): [10.5281/zenodo.20581781](https://doi.org/10.5281/zenodo.20581781)
 - Version DOI (v1.0): [10.5281/zenodo.20581782](https://doi.org/10.5281/zenodo.20581782)
-- Version DOI (v1.1): assigned on release
+- Version DOI (v1.1): [10.5281/zenodo.20674090](https://doi.org/10.5281/zenodo.20674090)
 
 Machine-readable metadata: [`CITATION.cff`](CITATION.cff).

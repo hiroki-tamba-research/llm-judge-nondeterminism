@@ -34,11 +34,6 @@
   "language": "eng",
   "related_identifiers": [
     {
-      "identifier": "https://github.com/Japan-AISI/aisev/issues/25",
-      "relation": "isSupplementTo",
-      "scheme": "url"
-    },
-    {
       "identifier": "https://github.com/Japan-AISI/aisev",
       "relation": "references",
       "scheme": "url"

@@ -7,9 +7,9 @@ authors:
     given-names: "Hiroki"
     affiliation: "Tamba Research Academy"
     orcid: "https://orcid.org/0009-0004-7635-0741"
-version: "1.0"
-date-released: "2026-06-07"
-license: CC-BY-4.0
+version: "1.1"
+date-released: "2026-06-13"
+license: CC-BY-NC-ND-4.0
 url: "https://github.com/hiroki-tamba-research/llm-judge-nondeterminism"
 doi: "10.5281/zenodo.20581781"
 identifiers:

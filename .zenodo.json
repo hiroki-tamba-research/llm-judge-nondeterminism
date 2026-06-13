@@ -1,14 +1,22 @@
 {
   "title": "Non-determinism in LLM-as-Judge Graders: An Empirical Reproducibility Note",
-  "version": "1.0",
+  "version": "1.1",
   "upload_type": "publication",
   "publication_type": "report",
-  "description": "<p>LLM-as-judge (grader) components are standard in evaluation harnesses, including safety evaluations where a pass/fail verdict gates downstream decisions. The widespread assumption that setting the grader temperature to 0 makes grading deterministic is wrong on two levels. (1) A publicly released evaluation harness (Japan AISI's aisev) invokes its grader without setting temperature or seed; the OpenAI provider maps temperature=None to 1.0, so the grader runs unseeded at temperature 1.0 and items near the decision boundary flip pass/fail across runs (measured per-item disagreement up to ~50% over 20 runs). (2) Even at temperature=0, a Claude grader still flips its verdict on 2 of 7 items, showing temperature alone does not guarantee deterministic grading. The note provides a reproduction harness and recommends concrete mitigations: set temperature=0 explicitly, set a seed where supported, run multiple epochs and report variance rather than a point estimate, and surface a grader-disagreement rate as a harness health metric. Generalized from a finding first reported as Japan-AISI/aisev issue #25.</p>",
+  "description": "<p>LLM-as-judge (grader) components are standard in evaluation harnesses, including safety evaluations where a pass/fail verdict gates downstream decisions. The widespread assumption that setting the grader temperature to 0 makes grading deterministic is wrong on two levels. (1) A publicly released evaluation harness (Japan AISI's aisev) invokes its grader without setting temperature or seed; the OpenAI provider maps temperature=None to 1.0, so the grader runs unseeded at temperature 1.0 and items near the decision boundary flip pass/fail across runs (measured per-item disagreement up to ~50% over 20 runs). (2) Even at temperature=0, graders still flip their verdicts on borderline items, showing temperature alone does not guarantee deterministic grading. v1.1 extends this with a top_p sweep (no effect), top_k=1 forced greedy (no effect), multi-model coverage (Sonnet/Opus/Haiku), and a finding that Claude Opus 4.8 has deprecated the temperature parameter entirely. The note provides a reproduction harness and recommends concrete mitigations: set temperature=0 where still supported, set a seed where supported, run multiple epochs and report variance rather than a point estimate, and surface a grader-disagreement rate as a harness health metric. Generalized from a finding first reported as Japan-AISI/aisev issue #25.</p>",
   "creators": [
     {
       "name": "Tamba, Hiroki",
       "affiliation": "Tamba Research Academy",
       "orcid": "0009-0004-7635-0741"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Nicolaysen, Eirik Botten",
+      "affiliation": "EcoDeco AS",
+      "orcid": "0009-0001-9188-6788",
+      "type": "Researcher"
     }
   ],
   "keywords": [

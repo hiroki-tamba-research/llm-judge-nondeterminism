@@ -1,7 +1,7 @@
 # Non-determinism in LLM-as-Judge Graders: An Empirical Reproducibility Note
 
 **Author:** Hiroki Tamba (Tamba Research Academy) · ORCID [0009-0004-7635-0741](https://orcid.org/0009-0004-7635-0741)
-**Status:** Preprint / technical note — **v1.0 (report; pre-resolution)**
+**Status:** Preprint / technical note — **v1.1 (extended parameter coverage)**
 **DOI:** [10.5281/zenodo.20581781](https://doi.org/10.5281/zenodo.20581781) (concept · always latest) · v1.0 [10.5281/zenodo.20581782](https://doi.org/10.5281/zenodo.20581782)
 **Origin:** Generalized from a finding first reported as `Japan-AISI/aisev` issue #25 (2026-06-03).
 
@@ -24,14 +24,21 @@ two levels.
 
 2. **`temperature=0` is necessary but not sufficient.** Pinning the temperature to 0 removes
    the *rare* flips but not the hard ones: the actual grader (`gpt-4o`) still splits **2 of 7**
-   items at `temperature=0`, and a Claude (Sonnet 4.6) grader independently reproduces a 2/7
-   split. Determinism of the *grader call* is not guaranteed by temperature alone, and the
-   effect is not provider-specific.
+   items at `temperature=0`, and a Claude (Sonnet 4.6) grader independently reproduces
+   instability. Determinism of the *grader call* is not guaranteed by temperature alone, and
+   the effect is not provider-specific.
+
+3. **Other sampling parameters do not help.** Restricting `top_p` (nucleus sampling) to 0.1 or
+   forcing `top_k=1` (greedy decoding) leaves the same items unstable. The non-determinism
+   originates before the sampling step. Meanwhile, at least one production model (Claude
+   Opus 4.8) has deprecated `temperature` entirely, making the `temperature=0` mitigation
+   inapplicable.
 
 We provide a small reproduction harness, report measured per-item disagreement rates, and
-recommend concrete mitigations: set `temperature=0` explicitly, set a `seed` where the
-provider supports it, run multiple `epochs` and **report grader variance instead of a single
-point estimate**, and surface a grader-disagreement rate as a harness health metric.
+recommend concrete mitigations: set `temperature=0` explicitly where still supported, set a
+`seed` where the provider supports it, run multiple `epochs` and **report grader variance
+instead of a single point estimate**, and surface a grader-disagreement rate as a harness
+health metric.
 
 ---
 
@@ -140,6 +147,64 @@ both conditions (default — item6 14 I / 6 C, item7 15 C / 5 I; `temperature=0`
 disagreement does not vanish, not to estimate a precise rate. Raw outputs:
 [`data/repro_raw_anthropic.json`](data/repro_raw_anthropic.json).
 
+## 4a. Sampling parameter coverage (v1.1)
+
+§4 showed that residual non-determinism is not provider-specific but tested only temperature.
+v1.1 asks: can other sampling parameters — `top_p` (nucleus sampling) or `top_k` — eliminate
+the remaining flips? It also extends the cross-model check to additional Claude tiers.
+
+**Method.** Same 7-item protocol as §3, `temperature=0` throughout. Seven conditions: three
+OpenAI (`gpt-4o` with `top_p` ∈ {default, 0.1, 0.5}), four Anthropic (Sonnet 4.6, Opus 4.8,
+Haiku 4.5 at defaults; Sonnet 4.6 with `top_k=1`). N = 10 runs per item per condition (490
+API calls total). Raw outputs:
+[`data/repro_raw_v11_extended.json`](data/repro_raw_v11_extended.json) (OpenAI, 210 calls),
+[`data/repro_raw_v11_anthropic.json`](data/repro_raw_v11_anthropic.json) (Anthropic, 280
+calls).
+
+**Results.**
+
+| Condition | Model | top_p | top_k | Non-repro | Unstable items |
+|-----------|-------|:-----:|:-----:|:---------:|:--------------:|
+| baseline (§3 replication) | `gpt-4o` | — | — | 2/7 | 4, 6 |
+| + top_p=0.1 | `gpt-4o` | 0.1 | — | 2/7 | 4, 6 |
+| + top_p=0.5 | `gpt-4o` | 0.5 | — | 2/7 | 4, 6 |
+| baseline | `claude-sonnet-4-6` | — | — | 1/7 | 6 |
+| — | `claude-opus-4-8` | — | — | **ERROR** | (see below) |
+| — | `claude-haiku-4-5-20251001` | — | — | 1/7 | 6 |
+| + top_k=1 | `claude-sonnet-4-6` | — | 1 | 1/7 | 6 |
+
+Four findings emerge:
+
+**1. `top_p` is not a mitigation.** Restricting the nucleus from the default to 0.1 (the
+tightest practical setting) does not change which items flip or how often. All three OpenAI
+conditions produce the same 2/7 pattern on the same items (4 and 6). The instability is in
+the top token's logit, not in the tail of the distribution that `top_p` trims.
+
+**2. `top_k=1` (forced greedy) does not eliminate flips.** On Sonnet 4.6, forcing the decoder
+to select only the single highest-probability token still produces 1/7 non-reproducibility
+(item 6: 8 I / 2 C — slightly worse than the baseline 9 I / 1 C). This is strong evidence
+that the non-determinism originates *before* the sampling step, in the forward pass itself
+(floating-point non-associativity, batch-dependent numerics, or MoE routing).
+
+**3. Non-determinism is model-tier-independent.** Both Sonnet 4.6 and Haiku 4.5 flip the same
+item (item 6) at the same rate (9/1). The effect is not an artifact of a particular model
+size or architecture tier within a provider.
+
+**4. `temperature` is being deprecated.** Claude Opus 4.8 rejects `temperature` as a parameter
+entirely (`"temperature is deprecated for this model"`), returning HTTP 400 on all 70
+attempted calls. This means the primary recommendation of §6 — "set `temperature=0`
+explicitly" — is *already inapplicable* to at least one production model. As providers move
+toward models with fixed or internally managed decoding, the `temperature=0` mitigation will
+become progressively less available, strengthening the case for the structural mitigations in
+§6 items 3–5 (epochs, variance reporting, and health metrics).
+
+**Note on temporal stability.** The v1.0 Claude Sonnet 4.6 baseline (§4) found 2/7
+non-reproducible items (items 6 and 7); the v1.1 re-run finds 1/7 (item 6 only, item 7
+now unanimous at 10 C / 0 C). At N = 10 this is consistent with sampling noise (v1.0 item 7
+was 9 C / 1 I — a 10% flip rate can easily produce 0 flips in 10 trials). It may also reflect
+serving-infrastructure changes between measurement dates. Either way, it underscores that a
+single measurement pass does not characterize the grader's long-term stability.
+
 ## 5. Why this matters
 
 For ordinary capability benchmarks, grader noise inflates variance and can change rankings of
@@ -150,8 +215,9 @@ safety property.
 
 ## 6. Recommended mitigations
 
-1. **Set `temperature=0` explicitly** at the grader call site. Never rely on the provider's
-   `None` default — it may mean `1.0`.
+1. **Set `temperature=0` explicitly** at the grader call site, where the provider still
+   supports it. Never rely on the provider's `None` default — it may mean `1.0`. Note that
+   some models (e.g. Claude Opus 4.8) have deprecated `temperature` entirely (§4a).
 2. **Set `seed`** where the provider supports it, and record it in the run metadata.
 3. **Run `epochs > 1`** for the grader and **report variance / a confidence interval**, not a
    single point estimate.
@@ -163,11 +229,17 @@ safety property.
 
 ## 7. Reproduction
 
-The reproduction harness is [`src/repro_disagreement_rate.py`](src/repro_disagreement_rate.py).
-It mirrors aisev's `get_graded_qa_scorer` prompt and `inspect_ai`'s default grade-extraction
-verbatim, grades the 7-item set under both the default and `temperature=0` conditions, and
-reports the per-item disagreement rate. The raw grader outputs backing §3–§4 are in
-[`data/`](data/). See [`README.md`](README.md) for setup and the exact run counts.
+The reproduction harness is [`src/repro_disagreement_rate.py`](src/repro_disagreement_rate.py)
+(v1.0 protocol) and [`src/repro_v11_extended.py`](src/repro_v11_extended.py) (v1.1 extended
+parameter sweep). Both mirror aisev's grading prompt and `inspect_ai`'s grade-extraction regex
+verbatim. The raw grader outputs backing §3–§4a are in [`data/`](data/):
+
+- `repro_raw_openai.json` — v1.0 OpenAI results (§3)
+- `repro_raw_anthropic.json` — v1.0 Anthropic results (§4)
+- `repro_raw_v11_extended.json` — v1.1 OpenAI top_p sweep (§4a, 210 calls)
+- `repro_raw_v11_anthropic.json` — v1.1 Anthropic multi-model + top_k (§4a, 280 calls)
+
+See [`README.md`](README.md) for setup and the exact run counts.
 
 ## 8. Related work and positioning
 
@@ -233,8 +305,11 @@ upstream context by checking out the referenced commit of the upstream repositor
 This artifact follows a two-version plan, archived under a single Zenodo *concept* DOI with a
 distinct *version* DOI per release:
 
-- **v1.0 (this release) — report.** Documents the finding and the measured non-determinism
+- **v1.0 — report.** Documents the finding and the measured non-determinism
   as of upstream commit `e0604d1` (`main` at 2026-04-16, PR #23), before any fix is adopted.
+- **v1.1 (this release) — extended parameter coverage.** Adds `top_p` sweep (OpenAI),
+  multi-model check (Claude Sonnet / Opus / Haiku), `top_k=1` forced-greedy check, and the
+  Opus 4.8 `temperature`-deprecated finding. Contributor credit: Eirik Botten Nicolaysen.
 - **v2.0 (planned) — resolution.** If the proposed mitigations are adopted upstream, v2 will
   add a short "Resolution" section recording the change (the upstream PR / commit and the
   post-fix disagreement rate). Citations to the concept DOI will resolve to the latest
@@ -244,15 +319,20 @@ See [`CHANGELOG.md`](CHANGELOG.md).
 
 ## Acknowledgments and tooling
 
-The empirical finding, reproduction code, and analysis are the author's own. Drafting of this
-note was assisted by an LLM (Claude); all claims and data were verified by the author.
+The empirical finding, reproduction code, and analysis are the author's own.
+Eirik Botten Nicolaysen (avalyset / EcoDeco AS; ORCID [0009-0001-9188-6788](https://orcid.org/0009-0001-9188-6788))
+independently verified the non-determinism on a separate infrastructure and contributed
+observations on `top_p`/`top_k` coverage and cross-model scoping that informed v1.1.
+Drafting of this note was assisted by an LLM (Claude); all claims and data were verified
+by the author.
 
 ## How to cite
 
 Tamba, H. (2026). *Non-determinism in LLM-as-Judge Graders: An Empirical Reproducibility Note*
-(v1.0). Zenodo. https://doi.org/10.5281/zenodo.20581782
+(v1.1). Zenodo. https://doi.org/10.5281/zenodo.20581781
 
 - Concept DOI (always resolves to the latest version): [10.5281/zenodo.20581781](https://doi.org/10.5281/zenodo.20581781)
-- Version DOI (this release, v1.0): [10.5281/zenodo.20581782](https://doi.org/10.5281/zenodo.20581782)
+- Version DOI (v1.0): [10.5281/zenodo.20581782](https://doi.org/10.5281/zenodo.20581782)
+- Version DOI (v1.1): assigned on release
 
 Machine-readable metadata: [`CITATION.cff`](CITATION.cff).

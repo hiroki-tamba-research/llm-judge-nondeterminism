@@ -1,0 +1,35 @@
+[
+  {
+    "label": "OAI temp=0 (baseline)",
+    "provider": "openai",
+    "model": "gpt-4o",
+    "temperature": 0,
+    "top_p": null,
+    "top_k": null,
+    "nonrepro": 2,
+    "total_items": 7,
+    "runs": 10
+  },
+  {
+    "label": "OAI temp=0 top_p=0.1",
+    "provider": "openai",
+    "model": "gpt-4o",
+    "temperature": 0,
+    "top_p": 0.1,
+    "top_k": null,
+    "nonrepro": 2,
+    "total_items": 7,
+    "runs": 10
+  },
+  {
+    "label": "OAI temp=0 top_p=0.5",
+    "provider": "openai",
+    "model": "gpt-4o",
+    "temperature": 0,
+    "top_p": 0.5,
+    "top_k": null,
+    "nonrepro": 2,
+    "total_items": 7,
+    "runs": 10
+  }
+]

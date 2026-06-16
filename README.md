@@ -1,6 +1,6 @@
 # Non-determinism in LLM-as-Judge Graders
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20581781.svg)](https://doi.org/10.5281/zenodo.20581781)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20674090.svg)](https://doi.org/10.5281/zenodo.20674090)
 
 An empirical reproducibility note plus a reproduction harness, showing that
 LLM-as-judge graders are non-deterministic — and that the common
@@ -79,3 +79,19 @@ pin. See [`CHANGELOG.md`](CHANGELOG.md).
 For commercial use, derivative works, integration into commercial products, or inclusion in training datasets, a separate written license is required. Contact: contact@tamba-research.academy
 
 This work is reserved against TDM per EU DSM Directive Article 4(3). See `.well-known/tdmrep.json`.
+
+## arXiv Submission Status
+
+This paper is ready for arXiv submission to **cs.AI** (Artificial Intelligence). As an independent researcher without institutional affiliation, I need endorsement from an existing arXiv author to submit.
+
+If you are an endorsed author in any cs.* category and willing to help, the endorsement code is: **V6FVHF**
+
+[How arXiv endorsement works](https://info.arxiv.org/help/endorsement.html)
+
+### Author credentials
+
+- **inspect_ai** — [PR #4170](https://github.com/UKGovernmentBEIS/inspect_ai/pull/4170) (merged): grader generation config and reproducible grading documentation, approved by JJ Allaire
+- **EU AI Act Article 6** consultation submission ([DOI: 10.5281/zenodo.20605168](https://doi.org/10.5281/zenodo.20605168))
+- **NIST AI 800-2** public comment on AI evaluation standards
+- **Behavioral red teaming** reproduction report ([DOI: 10.5281/zenodo.20609109](https://doi.org/10.5281/zenodo.20609109))
+- **ORCID**: [0009-0004-7635-0741](https://orcid.org/0009-0004-7635-0741)
